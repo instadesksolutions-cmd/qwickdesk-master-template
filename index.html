@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QwickDesk Solutions | Universal Business Portal</title>
+    
+    <!-- Google Fonts: Premium SaaS Look ke liye 'Inter' aur 'Poppins' -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons for UI styling -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS Link (CSS folder se connect hoga) -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Container: Split Screen Design -->
+    <div class="split-screen-container">
+        
+        <!-- Left Side: QwickDesk Branding & Pitch -->
+        <div class="brand-section">
+            <div class="brand-content">
+                <div class="logo-area">
+                    <i class="fa-solid fa-rocket logo-icon"></i>
+                    <h1 class="brand-name">QwickDesk <span>Solutions</span></h1>
+                </div>
+                
+                <h2 class="hero-tagline">The Complete Digital System for Local Businesses.</h2>
+                <p class="hero-subtext">Website • Web App • SEO • Digital Marketing</p>
+                
+                <!-- Business Categories Showcase -->
+                <div class="category-badges">
+                    <span class="badge"><i class="fa-solid fa-stethoscope"></i> Clinics</span>
+                    <span class="badge"><i class="fa-solid fa-utensils"></i> Restaurants</span>
+                    <span class="badge"><i class="fa-solid fa-shop"></i> Retail POS</span>
+                    <span class="badge"><i class="fa-solid fa-industry"></i> Manufacturers</span>
+                </div>
+            </div>
+            
+            <!-- Graphic Background Overlay -->
+            <div class="brand-overlay"></div>
+        </div>
+
+        <!-- Right Side: Admin/Demo Login Form -->
+        <div class="login-section">
+            <div class="login-card">
+                <div class="mobile-logo">
+                    <h2 class="brand-name-mobile">QwickDesk</h2>
+                </div>
+                
+                <div class="login-header">
+                    <h2>Access Demo Portal</h2>
+                    <p>Enter your admin credentials to launch the live systems.</p>
+                </div>
+
+                <!-- Error Message Box (Hidden by default, controlled by JS) -->
+                <div id="error-message" class="alert-box error hidden">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="error-text">Invalid email or password.</span>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form">
+                    
+                    <div class="input-group">
+                        <label for="email">Admin Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="email" placeholder="admin@qwickdesk.com" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                            <i class="fa-regular fa-eye-slash toggle-password" id="toggle-password"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember"> Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" id="login-btn" class="btn-primary">
+                        <span class="btn-text">Launch Portal</span>
+                        <i class="fa-solid fa-arrow-right btn-icon"></i>
+                        <span class="loader hidden"></span>
+                    </button>
+                    
+                </form>
+                
+                <div class="system-status">
+                    <p><i class="fa-solid fa-circle-check status-icon"></i> All systems operational</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- JavaScript Connection: Firebase and Logic -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    
+</body>
+</html>
