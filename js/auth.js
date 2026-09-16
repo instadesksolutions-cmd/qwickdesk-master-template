@@ -1,7 +1,10 @@
+/* ==========================================================================
+   QwickDesk Solutions - Authentication Logic (Firebase Integration)
+   ========================================================================== */
+
 import { auth } from './firebase-config.js';
 import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-// Page fully load hone ka wait karte hain
 window.addEventListener('DOMContentLoaded', () => {
     
     const loginForm = document.getElementById('login-form');
@@ -11,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const errorText = document.getElementById('error-text');
     const togglePasswordBtn = document.getElementById('toggle-password');
 
-    // 1. Password Show / Hide Toggle Fix
+    // 1. Password Show / Hide Toggle
     if (togglePasswordBtn && passwordInput) {
         togglePasswordBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -28,17 +31,17 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Auto-redirect agar pehle se login hai
+    // 2. Auto-redirect if user is already logged in
     onAuthStateChanged(auth, (user) => {
         if (user) {
             window.location.href = 'dashboard.html';
         }
     });
 
-    // 3. Login Submit Fix (Reload rokne ke liye)
+    // 3. Login Form Submit Handler
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Yeh sabse zaroori hai taaki page reload na ho!
+            e.preventDefault(); // Prevents page reload
             
             const email = emailInput.value.trim();
             const password = passwordInput.value;
@@ -46,14 +49,12 @@ window.addEventListener('DOMContentLoaded', () => {
             if (errorBox) errorBox.classList.add('hidden');
 
             try {
-                console.log("Attempting login for:", email);
                 await signInWithEmailAndPassword(auth, email, password);
-                console.log("Login success! Redirecting...");
                 window.location.href = 'dashboard.html';
             } catch (error) {
                 console.error("Login failed:", error.code);
                 if (errorText) {
-                    errorText.textContent = "Invalid Email or Password! (" + error.code + ")";
+                    errorText.textContent = "Invalid Email or Password!";
                 }
                 if (errorBox) {
                     errorBox.classList.remove('hidden');
