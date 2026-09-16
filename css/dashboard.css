@@ -2,15 +2,13 @@
    QwickDesk Solutions - Master Dashboard CSS
    ========================================================================== */
 
-/* Dashboard Specific Variables */
 :root {
     --sidebar-width: 260px;
-    --sidebar-bg: #0f172a; /* Premium Dark Slate */
+    --sidebar-bg: #0f172a;
     --sidebar-text: #94a3b8;
     --sidebar-hover: #1e293b;
     --sidebar-active: #2563eb;
     --sidebar-active-text: #ffffff;
-    
     --topbar-height: 70px;
     --bg-dashboard: #f1f5f9;
     --card-bg: #ffffff;
@@ -22,14 +20,13 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 1. Dashboard Layout --- */
 .dashboard-container {
     display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
-/* --- 2. Sidebar Navigation --- */
+/* --- Sidebar Navigation --- */
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--sidebar-bg);
@@ -51,7 +48,7 @@ body {
 
 .brand-icon {
     font-size: 1.5rem;
-    color: #3b82f6; /* QwickDesk Blue */
+    color: #3b82f6;
     margin-right: 12px;
 }
 
@@ -65,7 +62,7 @@ body {
     margin-left: auto;
     cursor: pointer;
     font-size: 1.2rem;
-    display: none; /* Mobile par dikhega */
+    display: none;
 }
 
 .sidebar-menu {
@@ -107,7 +104,7 @@ body {
     border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-/* --- 3. Main Content Area --- */
+/* --- Main Content Area --- */
 .main-content {
     flex: 1;
     display: flex;
@@ -116,7 +113,7 @@ body {
     overflow: hidden;
 }
 
-/* --- 4. Topbar Header --- */
+/* --- Topbar Header --- */
 .topbar {
     height: var(--topbar-height);
     background-color: var(--card-bg);
@@ -213,23 +210,7 @@ body {
     color: #64748b;
 }
 
-.btn-logout {
-    background: none;
-    border: none;
-    color: #ef4444;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 6px;
-    transition: 0.2s;
-}
-
-.btn-logout:hover {
-    background-color: #fef2f2;
-    color: #b91c1c;
-}
-
-/* --- 5. Content Wrapper & Cards --- */
+/* --- Content Wrapper & Cards --- */
 .content-wrapper {
     flex: 1;
     padding: 30px;
@@ -265,12 +246,6 @@ body {
     align-items: center;
     gap: 20px;
     border: 1px solid #f1f5f9;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
 .stat-icon {
@@ -297,7 +272,7 @@ body {
     color: #1e293b;
 }
 
-/* --- 6. Data Table Styling --- */
+/* --- Data Table Styling --- */
 .data-section {
     background: var(--card-bg);
     border-radius: 12px;
@@ -339,12 +314,6 @@ body {
     font-family: inherit;
     font-size: 0.9rem;
     width: 280px;
-    transition: 0.3s;
-}
-
-.search-box input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
 }
 
 .table-container {
@@ -376,10 +345,6 @@ body {
     font-weight: 500;
 }
 
-.data-table tr:hover td {
-    background-color: #f8fafc;
-}
-
 .empty-state {
     text-align: center !important;
     padding: 40px !important;
@@ -387,7 +352,6 @@ body {
     font-style: italic;
 }
 
-/* Table Status Badges */
 .status-badge {
     padding: 6px 12px;
     border-radius: 20px;
@@ -397,62 +361,12 @@ body {
 .status-success { background: #dcfce7; color: #16a34a; }
 .status-pending { background: #fef9c3; color: #ca8a04; }
 
-/* Table Action Buttons */
 .action-btn {
     background: none;
     border: none;
     cursor: pointer;
     margin-right: 12px;
     font-size: 1.1rem;
-    transition: 0.2s;
 }
-
 .edit-btn { color: #3b82f6; }
 .delete-btn { color: #ef4444; }
-
-.edit-btn:hover { color: #1d4ed8; transform: scale(1.1); }
-.delete-btn:hover { color: #b91c1c; transform: scale(1.1); }
-
-/* --- 7. Mobile Responsive Adjustments --- */
-@media (max-width: 900px) {
-    .sidebar {
-        position: fixed;
-        left: -260px; /* Hide by default */
-        height: 100vh;
-    }
-    
-    .sidebar.active {
-        left: 0;
-        box-shadow: 10px 0 25px rgba(0,0,0,0.2);
-    }
-
-    .toggle-menu {
-        display: block;
-    }
-
-    .industry-switcher label {
-        display: none;
-    }
-
-    .user-info {
-        display: none;
-    }
-
-    .content-wrapper {
-        padding: 15px;
-    }
-
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .search-box input {
-        width: 100%;
-    }
-}
