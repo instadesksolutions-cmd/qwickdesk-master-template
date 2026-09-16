@@ -5,23 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QwickDesk Solutions | Universal Business Portal</title>
     
-    <!-- Google Fonts: Premium SaaS Look ke liye 'Inter' aur 'Poppins' -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome Icons for UI styling -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS Link (CSS folder se connect hoga) -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- Main Container: Split Screen Design -->
     <div class="split-screen-container">
         
-        <!-- Left Side: QwickDesk Branding & Pitch -->
+        <!-- Left Side: Branding -->
         <div class="brand-section">
             <div class="brand-content">
                 <div class="logo-area">
@@ -32,7 +31,6 @@
                 <h2 class="hero-tagline">The Complete Digital System for Local Businesses.</h2>
                 <p class="hero-subtext">Website • Web App • SEO • Digital Marketing</p>
                 
-                <!-- Business Categories Showcase -->
                 <div class="category-badges">
                     <span class="badge"><i class="fa-solid fa-stethoscope"></i> Clinics</span>
                     <span class="badge"><i class="fa-solid fa-utensils"></i> Restaurants</span>
@@ -40,12 +38,10 @@
                     <span class="badge"><i class="fa-solid fa-industry"></i> Manufacturers</span>
                 </div>
             </div>
-            
-            <!-- Graphic Background Overlay -->
             <div class="brand-overlay"></div>
         </div>
 
-        <!-- Right Side: Admin/Demo Login Form -->
+        <!-- Right Side: Login Form -->
         <div class="login-section">
             <div class="login-card">
                 <div class="mobile-logo">
@@ -57,13 +53,11 @@
                     <p>Enter your admin credentials to launch the live systems.</p>
                 </div>
 
-                <!-- Error Message Box (Hidden by default, controlled by JS) -->
                 <div id="error-message" class="alert-box error hidden">
                     <i class="fa-solid fa-circle-exclamation"></i>
                     <span id="error-text">Invalid email or password.</span>
                 </div>
 
-                <!-- Login Form -->
                 <form id="login-form" class="auth-form">
                     
                     <div class="input-group">
@@ -79,7 +73,7 @@
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock input-icon"></i>
                             <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
-                            <i class="fa-regular fa-eye-slash toggle-password" id="toggle-password"></i>
+                            <i class="fa-regular fa-eye-slash toggle-password" id="toggle-password" style="cursor: pointer;"></i>
                         </div>
                     </div>
 
@@ -106,7 +100,7 @@
         
     </div>
 
-    <!-- JavaScript Connection: Firebase and Logic -->
+    <!-- JavaScript Modules -->
     <script type="module" src="js/firebase-config.js"></script>
     <script type="module" src="js/auth.js"></script>
     
