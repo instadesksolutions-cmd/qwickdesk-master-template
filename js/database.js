@@ -1,74 +1,148 @@
 /* ==========================================================================
-   QwickDesk Solutions - Master Database Logic (Firestore)
-   Yeh file database mein data Add, Read aur Delete karne ka kaam karegi.
+   QwickDesk Solutions - Universal Database Logic (Firestore CRUD)
    ========================================================================== */
 
 import { db } from './firebase-config.js';
 import { 
     collection, 
-    addDoc, 
     getDocs, 
-    deleteDoc,
-    doc,
+    addDoc, 
+    deleteDoc, 
+    doc, 
     query, 
     orderBy, 
     serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 /**
- * 1. ADD RECORD FUNCTION (Universal)
- * Yeh kisi bhi industry ke database collection mein naya record add karega.
- * @param {string} collectionName - Jaise 'clinic_patients' ya 'retail_bills'
- * @param {object} dataObject - Form ka actual data
+ * Get collection name based on selected industry
+ * @param {string} industry 
+ * @returns {string} collection name in Firestore
  */
-export async function addRecord(collectionName, dataObject) {
-    try {
-        const docRef = await addDoc(collection(db, collectionName), {
-            ...dataObject,
-            createdAt: serverTimestamp() // Humesha record ka exact time save karega
-        });
-        console.log(`✅ Record successfully added in [${collectionName}] with ID: ${docRef.id}`);
-        return { success: true, id: docRef.id };
-    } catch (error) {
-        console.error(`❌ Error adding record in [${collectionName}]: `, error);
-        return { success: false, error: error.message };
-    }
+export function getCollectionName(industry) {
+    const mapping = {
+        'clinic': 'clinic_records',
+        'restaurant': 'restaurant_orders',
+        'grocery': 'grocery_inventory',
+        'manufacturer': 'manufacturer_leads',
+        'salon': 'salon_appointments',
+        'gym': 'gym_members',
+        'construction': 'construction_projects'
+    };
+    return mapping[industry] || 'universal_records';
 }
 
 /**
- * 2. GET RECORDS FUNCTION (Universal)
- * Yeh database se data nikal kar dashboard ke table mein dikhane ke liye hai.
- * Data hamesha naye se purane (descending) order mein aayega.
+ * Fetch records for the selected industry from Firestore
+ * @param {string} industry 
  */
-export async function getRecords(collectionName) {
+export async function fetchIndustryData(industry) {
+    const colName = getCollectionName(industry);
+    const tableBody = document.getElementById('table-body');
+    const statTotal = document.getElementById('stat-total');
+    const statRevenue = document.getElementById('stat-revenue');
+    const statPending = document.getElementById('stat-pending');
+
+    if (!tableBody) return;
+
+    tableBody.innerHTML = `<tr><td colspan="5" class="empty-state">Loading data for ${industry}...</td></tr>`;
+
     try {
-        const q = query(collection(db, collectionName), orderBy("createdAt", "desc"));
+        const q = query(collection(db, colName), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         
         let records = [];
-        querySnapshot.forEach((doc) => {
-            records.push({ id: doc.id, ...doc.data() });
+        querySnapshot.forEach((docSnap) => {
+            records.push({ id: docSnap.id, ...docSnap.data() });
         });
+
+        // Update Stats Counters
+        if (statTotal) statTotal.textContent = records.length;
         
-        console.log(`📦 Fetched ${records.length} records from [${collectionName}]`);
-        return records;
+        let totalRev = records.reduce((acc, curr) => acc + (Number(curr.amount) || Number(curr.price) || 0), 0);
+        if (statRevenue) statRevenue.textContent = `₹${totalRev.toLocaleString('en-IN')}`;
+
+        let pendingCount = records.filter(r => r.status === 'Pending' || r.status === 'Scheduled').length;
+        if (statPending) statPending.textContent = pendingCount;
+
+        // Render Table Rows
+        if (records.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="5" class="empty-state">No records found. Click 'Add New Record' to create one!</td></tr>`;
+            return;
+        }
+
+        tableBody.innerHTML = '';
+        records.forEach((record, index) => {
+            const tr = document.createElement('tr');
+            
+            // Format date safely
+            const dateStr = record.createdAt?.toDate ? record.createdAt.toDate().toLocaleDateString('en-IN') : 'Recent';
+            const statusClass = (record.status === 'Completed' || record.status === 'Active' || record.status === 'Paid') ? 'status-success' : 'status-pending';
+
+            tr.innerHTML = `
+                <td><strong>#${index + 1}</strong> - ${record.name || record.title || 'Untitled'}</td>
+                <td>${record.details || record.category || record.phone || 'N/A'}</td>
+                <td><span class="status-badge ${statusClass}">${record.status || 'Active'}</span></td>
+                <td>${dateStr}</td>
+                <td>
+                    <button class="action-btn delete-btn" data-id="${record.id}" data-col="${colName}" title="Delete Record">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
+            `;
+            tableBody.appendChild(tr);
+        });
+
+        // Attach Delete Event Listeners
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const docId = btn.getAttribute('data-id');
+                const targetCol = btn.getAttribute('data-col');
+                if (confirm("Are you sure you want to delete this record?")) {
+                    await deleteRecord(docId, targetCol, industry);
+                }
+            });
+        });
+
     } catch (error) {
-        console.error(`❌ Error fetching records from [${collectionName}]: `, error);
-        return [];
+        console.error("Error fetching data:", error);
+        tableBody.innerHTML = `<tr><td colspan="5" class="empty-state" style="color: #ef4444 !important;">Error loading database records. Please check connection.</td></tr>`;
     }
 }
 
 /**
- * 3. DELETE RECORD FUNCTION (Universal)
- * Kisi bhi entry ko delete karne ke liye (Jaise koi appointment cancel ho gayi).
+ * Add a new record to Firestore
+ * @param {string} industry 
+ * @param {Object} data 
  */
-export async function deleteRecord(collectionName, documentId) {
+export async function addNewRecord(industry, data) {
+    const colName = getCollectionName(industry);
     try {
-        await deleteDoc(doc(db, collectionName, documentId));
-        console.log(`🗑️ Record [${documentId}] deleted from [${collectionName}]`);
-        return { success: true };
+        await addDoc(collection(db, colName), {
+            ...data,
+            createdAt: serverTimestamp()
+        });
+        fetchIndustryData(industry);
+        return true;
     } catch (error) {
-        console.error(`❌ Error deleting record [${documentId}]: `, error);
-        return { success: false, error: error.message };
+        console.error("Error adding document: ", error);
+        alert("Failed to add record. Check console.");
+        return false;
+    }
+}
+
+/**
+ * Delete a record from Firestore
+ * @param {string} docId 
+ * @param {string} colName 
+ * @param {string} industry 
+ */
+async function deleteRecord(docId, colName, industry) {
+    try {
+        await deleteDoc(doc(db, colName, docId));
+        fetchIndustryData(industry);
+    } catch (error) {
+        console.error("Error deleting document: ", error);
+        alert("Failed to delete record.");
     }
 }
