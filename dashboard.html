@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | QwickDesk Master System</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Dashboard Specific CSS -->
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- ================= SIDEBAR ================= -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-rocket brand-icon"></i>
+                <h2 class="brand-text">QwickDesk</h2>
+                <i class="fa-solid fa-bars toggle-menu" id="toggle-menu"></i>
+            </div>
+            
+            <!-- Universal Menu items (JS se hide/show honge category ke hisaab se) -->
+            <ul class="sidebar-menu" id="sidebar-menu">
+                <li class="menu-item active" data-target="overview">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Overview</span>
+                </li>
+                <li class="menu-item" data-target="crm-module">
+                    <i class="fa-solid fa-users"></i>
+                    <span>CRM & Leads</span>
+                </li>
+                <li class="menu-item" data-target="pos-module">
+                    <i class="fa-solid fa-cash-register"></i>
+                    <span>POS & Billing</span>
+                </li>
+                <li class="menu-item" data-target="inventory-module">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span>Inventory (SKU)</span>
+                </li>
+                <li class="menu-item" data-target="appointment-module">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span>Appointments</span>
+                </li>
+                <li class="menu-item" data-target="project-module">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                    <span>Projects & Jobs</span>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <li class="menu-item" id="settings-btn">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </li>
+            </div>
+        </aside>
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <main class="main-content">
+            
+            <!-- Topbar Area -->
+            <header class="topbar">
+                
+                <!-- Client Demo Switcher (Tera secret weapon meeting ke liye) -->
+                <div class="industry-switcher">
+                    <label for="demo-industry">Current Demo:</label>
+                    <select id="demo-industry" class="industry-select">
+                        <option value="clinic">🏥 Clinic / Healthcare</option>
+                        <option value="retail">🛒 Retail / Restaurant</option>
+                        <option value="builder">🏗️ Construction / Contractor</option>
+                        <option value="manufacturer">🏭 Manufacturer / B2B</option>
+                    </select>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="notification-bell">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge-dot"></span>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="Admin Profile" class="avatar">
+                        <div class="user-info">
+                            <span class="user-name">Admin User</span>
+                            <span class="user-role">Super Admin</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Secure Logout Button -->
+                    <button id="logout-btn" class="btn-logout" title="Logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic Content Area (Data yahan load hoga) -->
+            <div class="content-wrapper" id="main-content-area">
+                
+                <!-- Placeholder Overview Cards (JS isko real data se replace karega) -->
+                <div class="page-header">
+                    <h1 id="page-title">Dashboard Overview</h1>
+                    <button class="btn-primary" id="quick-add-btn">
+                        <i class="fa-solid fa-plus"></i> Quick Add
+                    </button>
+                </div>
+
+                <!-- Stats Cards Row -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #e0f2fe; color: #0284c7;">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Clients</h3>
+                            <h2 id="stat-clients">---</h2>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #dcfce7; color: #16a34a;">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Revenue</h3>
+                            <h2 id="stat-revenue">₹ ---</h2>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #fef9c3; color: #ca8a04;">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Today's Actions</h3>
+                            <h2 id="stat-actions">---</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table Section -->
+                <div class="data-section">
+                    <div class="section-header">
+                        <h3 id="table-title">Recent Activity</h3>
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Search records...">
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr id="table-head">
+                                    <!-- Headers JS se generate honge based on category -->
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Data rows aayengi yahan -->
+                                <tr>
+                                    <td colspan="5" class="empty-state">Loading data from Firebase...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase Connection & Core Logic -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/app.js"></script>
+    
+</body>
+</html>
